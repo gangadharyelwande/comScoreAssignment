@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Shopping Cart</title>
+	<meta charset="utf-8" />
+    <script src="../Scripts/angular.min.js"></script>
+    <script src="../Scripts/movieTheater.js"></script>
+    <link href="../Styles/styles.css" rel="stylesheet" />
+</head>
+<body ng-app="movieTheaterApp" >
+    <div id="wrapper">
+        <h1>Shopping Cart</h1>
+        <div ng-controller="movieController">
+            <table class="table">
+                <tr>
+                    <th>Item</th>
+                    <th>Cost</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="item in itemDetails.items">
+                    <td><input type="text" ng-model="item.itemName" class="input-small"></td>
+                    <td><input type="number" ng-model="item.itemCost" ng-required class="input-mini"></td>
+                    <td><input type="number" ng-model="item.quantity" ng-required class="input-mini"></td>
+
+                    <td ng-if="item.itemName=='Snickers' && item.quantity<5">{{item.quantity * item.itemCost | currency}}</td>
+                    <td ng-if="item.itemName=='Snickers' && item.quantity==5">{{3 * item.itemCost | currency}}</td>
+                    <td ng-if="item.itemName=='Snickers' && item.quantity>5">{{item.quantity * item.itemCost | currency}}</td>
+                    <td ng-if="item.itemName!='Snickers'">{{item.quantity * item.itemCost | currency}}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <button ng-click="addItem()" id="addButton">Add Item</button>
+                    </td>
+                    <td></td>
+                    <td align="right"><strong>Total</strong></td>
+                    <td>{{calculateBasketTotal() | currency}}</td>
+                </tr>
+            </table>
+            <p ng-bind="previousTotal"></p>
+        </div>
+    </div>
+</body>
+</html>
